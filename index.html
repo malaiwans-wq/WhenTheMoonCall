@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>When the Moon Calls</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Prompt',sans-serif;
+  background:#080714;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+button{
+  font-family:inherit;
+}
+
+#stars{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  width:600px;
+  height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(124,91,190,.18),transparent 65%);
+  top:-220px;
+  left:-180px;
+  z-index:-1;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(75,61,150,.13),transparent 65%);
+  bottom:-220px;
+  right:-180px;
+  z-index:-1;
+}
+
+.app{
+  width:100%;
+  max-width:480px;
+  min-height:100vh;
+  margin:auto;
+  position:relative;
+}
+
+/* ---------- HERO ---------- */
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:40px 25px;
+  text-align:center;
+}
+
+.moon{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#fffdf2,#cfc9dd);
+  box-shadow:
+    0 0 25px rgba(255,255,255,.35),
+    0 0 80px rgba(190,164,255,.22);
+  margin-bottom:42px;
+  position:relative;
+  overflow:hidden;
+}
+
+.moon::after{
+  content:"";
+  position:absolute;
+  width:115px;
+  height:115px;
+  border-radius:50%;
+  background:#080714;
+  left:35px;
+  top:-5px;
+}
+
+.eyebrow{
+  font-size:10px;
+  letter-spacing:5px;
+  color:#aaa1c7;
+  margin-bottom:18px;
+  text-transform:uppercase;
+}
+
+h1{
+  font-family:'Cinzel',serif;
+  font-weight:500;
+  letter-spacing:4px;
+  font-size:39px;
+  line-height:1.15;
+  text-shadow:0 0 25px rgba(207,183,255,.22);
+}
+
+.subtitle{
+  margin-top:18px;
+  color:#bbb5c9;
+  font-size:14px;
+  line-height:2;
+  font-weight:300;
+}
+
+.hero-line{
+  width:80px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#b9a4e8,transparent);
+  margin:28px auto;
+}
+
+.start-btn{
+  margin-top:35px;
+  padding:15px 35px;
+  border-radius:100px;
+  border:1px solid rgba(210,190,255,.45);
+  background:rgba(130,105,180,.12);
+  color:#fff;
+  font-size:14px;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:0 0 30px rgba(130,100,200,.1);
+}
+
+.start-btn:hover{
+  background:rgba(150,120,210,.22);
+  transform:translateY(-2px);
+}
+
+/* ---------- SECTIONS ---------- */
+
+section{
+  padding:75px 22px;
+}
+
+.section-label{
+  color:#9f91bd;
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+
+.section-title{
+  font-family:'Cinzel',serif;
+  font-size:27px;
+  font-weight:500;
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+
+.section-description{
+  color:#a9a3b5;
+  font-size:13px;
+  line-height:1.9;
+}
+
+/* ---------- TAROT ---------- */
+
+.tarot-section{
+  text-align:center;
+}
+
+.tarot-card{
+  width:220px;
+  height:350px;
+  margin:35px auto 25px;
+  perspective:1000px;
+  cursor:pointer;
+}
+
+.card-inner{
+  width:100%;
+  height:100%;
+  transition:transform .8s;
+  transform-style:preserve-3d;
+  position:relative;
+}
+
+.tarot-card.flipped .card-inner{
+  transform:rotateY(180deg);
+}
+
+.card-front,
+.card-back{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  border-radius:18px;
+  overflow:hidden;
+}
+
+.card-front{
+  background:
+    radial-gradient(circle at center,rgba(160,130,220,.25),transparent 45%),
+    linear-gradient(145deg,#1b1532,#0c0918);
+  border:1px solid rgba(207,184,255,.35);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  box-shadow:
+    0 15px 60px rgba(0,0,0,.45),
+    0 0 35px rgba(130,100,210,.13);
+}
+
+.card-front::before{
+  content:"";
+  position:absolute;
+  inset:10px;
+  border:1px solid rgba(206,188,241,.2);
+  border-radius:12px;
+}
+
+.card-symbol{
+  font-size:65px;
+  margin-bottom:25px;
+  filter:drop-shadow(0 0 15px rgba(220,200,255,.5));
+}
+
+.card-front span{
+  font-family:'Cinzel',serif;
+  font-size:12px;
+  letter-spacing:4px;
+  color:#c8bce0;
+}
+
+.card-back{
+  transform:rotateY(180deg);
+  background:
+    radial-gradient(circle at 50% 30%,rgba(163,130,218,.3),transparent 40%),
+    linear-gradient(145deg,#21183c,#0c0918);
+  border:1px solid rgba(207,184,255,.35);
+  padding:30px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.result-symbol{
+  font-size:48px;
+  margin-bottom:15px;
+}
+
+.result-title{
+  font-family:'Cinzel',serif;
+  font-size:20px;
+  letter-spacing:2px;
+  margin-bottom:15px;
+}
+
+.result-text{
+  color:#c0b9ca;
+  font-size:12px;
+  line-height:1.9;
+}
+
+.tap{
+  font-size:11px;
+  color:#858092;
+  margin-top:18px;
+}
+
+/* ---------- QUIZ ---------- */
+
+.quiz{
+  margin-top:10px;
+}
+
+.question{
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(190,170,225,.12);
+  border-radius:20px;
+  padding:23px 18px;
+  margin-top:20px;
+}
+
+.question-number{
+  color:#9888ba;
+  font-size:10px;
+  letter-spacing:3px;
+  margin-bottom:10px;
+}
+
+.question h3{
+  font-size:15px;
+  font-weight:400;
+  line-height:1.7;
+}
+
+.options{
+  margin-top:17px;
+  display:grid;
+  gap:9px;
+}
+
+.option{
+  width:100%;
+  padding:13px 15px;
+  text-align:left;
+  border:1px solid rgba(190,170,225,.14);
+  background:rgba(255,255,255,.025);
+  color:#c8c2d1;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:12px;
+  transition:.25s;
+}
+
+.option:hover{
+  background:rgba(145,120,195,.13);
+  border-color:rgba(190,170,225,.3);
+}
+
+.option.selected{
+  background:rgba(150,120,210,.18);
+  border-color:#aa94d5;
+  color:#fff;
+}
+
+.quiz-btn{
+  width:100%;
+  margin-top:25px;
+  padding:15px;
+  border-radius:100px;
+  border:1px solid rgba(206,185,246,.3);
+  background:rgba(130,100,190,.15);
+  color:white;
+  cursor:pointer;
+}
+
+.quiz-result{
+  display:none;
+  margin-top:30px;
+  padding:30px 20px;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at top,rgba(155,125,220,.22),transparent 55%),
+    rgba(255,255,255,.035);
+  border:1px solid rgba(190,170,225,.16);
+  text-align:center;
+}
+
+.quiz-result.show{
+  display:block;
+  animation:fadeUp .6s ease;
+}
+
+.quiz-result .big{
+  font-size:50px;
+  margin-bottom:10px;
+}
+
+.quiz-result h3{
+  font-family:'Cinzel',serif;
+  font-size:21px;
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+
+.quiz-result p{
+  color:#b9b2c5;
+  font-size:13px;
+  line-height:1.9;
+}
+
+/* ---------- EVENT ---------- */
+
+.event-section{
+  text-align:center;
+}
+
+.event-card{
+  margin-top:30px;
+  padding:28px 20px;
+  border-radius:25px;
+  background:
+    linear-gradient(145deg,rgba(125,94,175,.12),rgba(255,255,255,.025));
+  border:1px solid rgba(190,170,225,.13);
+}
+
+.event-name{
+  font-family:'Cinzel',serif;
+  font-size:22px;
+  letter-spacing:2px;
+}
+
+.event-sub{
+  margin-top:8px;
+  color:#a59daf;
+  font-size:11px;
+}
+
+.booths{
+  margin-top:25px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.booth{
+  padding:16px 8px;
+  border-radius:15px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(190,170,225,.1);
+  color:#bdb5c8;
+  font-size:11px;
+}
+
+.booth span{
+  display:block;
+  font-size:22px;
+  margin-bottom:7px;
+}
+
+/* ---------- FOOTER ---------- */
+
+footer{
+  text-align:center;
+  padding:50px 20px 80px;
+  color:#625c6e;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+footer .moon-mini{
+  font-size:20px;
+  margin-bottom:12px;
+}
+
+/* ---------- ANIMATION ---------- */
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.fade{
+  animation:fadeUp 1s ease both;
+}
+
+.delay{
+  animation-delay:.25s;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:360px){
+  h1{
+    font-size:32px;
+  }
+
+  .tarot-card{
+    width:200px;
+    height:320px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="app">
+
+<!-- HERO -->
+<section class="hero">
+
+  <div class="moon"></div>
+
+  <div class="eyebrow">A Night of Wishes</div>
+
+  <h1>WHEN THE<br>MOON CALLS</h1>
+
+  <p class="subtitle">
+    ในค่ำคืนที่พระจันทร์เรียกหา<br>
+    ลองหยุดฟังเสียงของหัวใจตัวเอง
+  </p>
+
+  <div class="hero-line"></div>
+
+  <p class="subtitle">
+    บางคำตอบอาจไม่ได้อยู่บนท้องฟ้า<br>
+    แต่อยู่ในใจของคุณมาตลอด
+  </p>
+
+  <button class="start-btn" onclick="goTo('tarot')">
+    เริ่มการเดินทาง ✦
+  </button>
+
+</section>
+
+
+<!-- TAROT -->
+<section id="tarot" class="tarot-section">
+
+  <div class="section-label">Chapter 01 · The Moon</div>
+
+  <h2 class="section-title">ไพ่ของค่ำคืนนี้</h2>
+
+  <p class="section-description">
+    หลับตาสักครู่ ตั้งคำถามหนึ่งข้อ<br>
+    แล้วแตะไพ่เพื่อค้นหาข้อความที่พระจันทร์อยากบอกคุณ
+  </p>
+
+  <div class="tarot-card" id="tarotCard" onclick="drawCard()">
+
+    <div class="card-inner">
+
+      <div class="card-front">
+        <div class="card-symbol">☾</div>
+        <span>TOUCH THE MOON</span>
+      </div>
+
+      <div class="card-back">
+        <div class="result-symbol" id="cardSymbol">🌙</div>
+        <div class="result-title" id="cardTitle">The Moonchild</div>
+        <div class="result-text" id="cardText">
+          คุณมีความอ่อนโยนที่ไม่ได้แปลว่าอ่อนแอ
+          จงเชื่อในความรู้สึกของตัวเอง
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <p class="tap">แตะไพ่เพื่อเปิดคำทำนาย</p>
+
+</section>
+
+
+<!-- QUIZ -->
+<section id="quiz">
+
+  <div class="section-label">Chapter 02 · Know Yourself</div>
+
+  <h2 class="section-title">ฟังเสียงของหัวใจ</h2>
+
+  <p class="section-description">
+    ตอบคำถามสั้น ๆ แล้วค้นพบว่า<br>
+    คืนนี้คุณเป็นดวงจันทร์แบบไหน
+  </p>
+
+  <div class="quiz">
+
+    <div class="question">
+      <div class="question-number">QUESTION 01</div>
+      <h3>ถ้าคุณมีเวลาว่างหนึ่งคืน คุณอยากทำอะไร?</h3>
+
+      <div class="options">
+        <button class="option" onclick="choose(this,1)">อยู่คนเดียว เปิดเพลงเบา ๆ</button>
+        <button class="option" onclick="choose(this,2)">ออกไปเจอคนที่ชอบ</button>
+        <button class="option" onclick="choose(this,3)">ออกไปผจญภัยในที่ใหม่ ๆ</button>
+        <button class="option" onclick="choose(this,4)">นอนพักและปล่อยใจให้ว่าง</button>
+      </div>
+    </div>
+
+
+    <div class="question">
+      <div class="question-number">QUESTION 02</div>
+      <h3>เวลาคุณกำลังสับสน คุณมักทำอย่างไร?</h3>
+
+      <div class="options">
+        <button class="option" onclick="choose(this,1)">ฟังความรู้สึกของตัวเอง</button>
+        <button class="option" onclick="choose(this,2)">ปรึกษาคนที่ไว้ใจ</button>
+        <button class="option" onclick="choose(this,3)">ลองลงมือทำแล้วค่อยคิด</button>
+        <button class="option" onclick="choose(this,4)">ขอเวลาตัวเองก่อน</button>
+      </div>
+    </div>
+
+
+    <div class="question">
+      <div class="question-number">QUESTION 03</div>
+      <h3>สิ่งที่คุณอยากได้รับมากที่สุดในตอนนี้คืออะไร?</h3>
+
+      <div class="options">
+        <button class="option" onclick="choose(this,1)">ความเข้าใจ</button>
+        <button class="option" onclick="choose(this,2)">ความรัก</button>
+        <button class="option" onclick="choose(this,3)">แรงบันดาลใจ</button>
+        <button class="option" onclick="choose(this,4)">ความสงบ</button>
+      </div>
+    </div>
+
+    <button class="quiz-btn" onclick="showResult()">
+      ค้นพบคำตอบของฉัน ✦
+    </button>
+
+    <div class="quiz-result" id="quizResult">
+      <div class="big" id="resultEmoji">🌙</div>
+      <h3 id="resultName">The Dreamer</h3>
+      <p id="resultDescription">
+        คุณเป็นคนที่มีโลกภายในที่สวยงาม
+        อย่ากลัวที่จะใช้เวลาเดินตามจังหวะของตัวเอง
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- EVENT -->
+<section class="event-section">
+
+  <div class="section-label">Chapter 03 · The Event</div>
+
+  <h2 class="section-title">พบกันใต้แสงจันทร์</h2>
+
+  <p class="section-description">
+    จากโลกออนไลน์ สู่ค่ำคืนแห่งการค้นพบตัวเอง<br>
+    ผ่านกิจกรรมที่ออกแบบมาเพื่อหัวใจของคุณ
+  </p>
+
+  <div class="event-card">
+
+    <div class="event-name">WHEN THE MOON CALLS</div>
+
+    <div class="event-sub">
+      A Night of Wishes · Love · Self Discovery
+    </div>
+
+    <div class="booths">
+
+      <div class="booth">
+        <span>🔮</span>
+        Read the Star
+      </div>
+
+      <div class="booth">
+        <span>💗</span>
+        Find Your Love
+      </div>
+
+      <div class="booth">
+        <span>🌙</span>
+        Know Your Soul
+      </div>
+
+      <div class="booth">
+        <span>⛲</span>
+        Love Fountain
+      </div>
+
+      <div class="booth">
+        <span>🎴</span>
+        Fortune Stick
+      </div>
+
+      <div class="booth">
+        <span>📸</span>
+        Photo Booth
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<footer>
+
+  <div class="moon-mini">☾</div>
+
+  WHEN THE MOON CALLS
+
+  <br><br>
+
+  ส่งคำขอให้จักรวาล<br>
+  แล้วออกไปพบคำตอบของหัวใจ
+
+</footer>
+
+</div>
+
+
+<script>
+
+/* ---------- STAR BACKGROUND ---------- */
+
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+let stars = [];
+
+function resizeCanvas(){
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  stars = [];
+
+  for(let i=0;i<100;i++){
+
+    stars.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*1.4+.2,
+      a:Math.random(),
+      speed:Math.random()*.008+.002
+    });
+
+  }
+
+}
+
+function drawStars(){
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  stars.forEach(star=>{
+
+    star.a += star.speed;
+
+    const opacity =
+      .25 + Math.abs(Math.sin(star.a))*.65;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      star.x,
+      star.y,
+      star.r,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle =
+      `rgba(220,210,255,${opacity})`;
+
+    ctx.fill();
+
+  });
+
+  requestAnimationFrame(drawStars);
+
+}
+
+resizeCanvas();
+drawStars();
+
+window.addEventListener("resize",resizeCanvas);
+
+
+/* ---------- SCROLL ---------- */
+
+function goTo(id){
+
+  document.getElementById(id)
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* ---------- TAROT ---------- */
+
+const cards = [
+
+  {
+    symbol:"🌙",
+    title:"The Moonchild",
+    text:"คุณมีความอ่อนโยนที่ไม่ได้แปลว่าอ่อนแอ จงเชื่อในความรู้สึกของตัวเอง เพราะหัวใจของคุณกำลังบอกบางสิ่งที่สำคัญ"
+  },
+
+  {
+    symbol:"⛲",
+    title:"Love Fountain",
+    text:"ความรักที่ดีไม่ควรทำให้คุณต้องสูญเสียตัวตน จงเริ่มต้นจากการมอบความรักให้ตัวเองก่อน"
+  },
+
+  {
+    symbol:"✨",
+    title:"Guiding Star",
+    text:"แม้ตอนนี้เส้นทางยังไม่ชัดเจน แต่คุณกำลังเดินไปในทิศทางที่ถูกต้อง อย่ารีบเปรียบเทียบจังหวะของตัวเองกับใคร"
+  },
+
+  {
+    symbol:"🕊️",
+    title:"Pure Haven",
+    text:"บางครั้งการปล่อยวางไม่ใช่การยอมแพ้ แต่คือการเลือกความสงบให้กับหัวใจของตัวเอง"
+  },
+
+  {
+    symbol:"💜",
+    title:"Mystic Heart",
+    text:"คุณรู้คำตอบอยู่ลึก ๆ ในใจ เพียงแต่กำลังรอเวลาที่กล้าพอจะยอมรับมัน"
+  },
+
+  {
+    symbol:"⭐",
+    title:"Wish Keeper",
+    text:"คำอธิษฐานของคุณอาจยังไม่เกิดขึ้นในทันที แต่ทุกก้าวเล็ก ๆ ที่คุณทำกำลังพาคุณเข้าใกล้สิ่งนั้น"
+  },
+
+  {
+    symbol:"🌌",
+    title:"Cosmic Soul",
+    text:"คุณไม่ได้เกิดมาเพื่อเดินตามเส้นทางของคนอื่น จงสร้างเส้นทางที่เหมาะกับตัวคุณเอง"
+  }
+
+];
+
+let currentCard = 0;
+
+function drawCard(){
+
+  const card =
+    document.getElementById("tarotCard");
+
+  const alreadyFlipped =
+    card.classList.contains("flipped");
+
+  if(alreadyFlipped){
+
+    currentCard =
+      Math.floor(Math.random()*cards.length);
+
+    const data = cards[currentCard];
+
+    document.getElementById("cardSymbol").textContent =
+      data.symbol;
+
+    document.getElementById("cardTitle").textContent =
+      data.title;
+
+    document.getElementById("cardText").textContent =
+      data.text;
+
+    card.classList.remove("flipped");
+
+    setTimeout(()=>{
+      card.classList.add("flipped");
+    },100);
+
+  }else{
+
+    card.classList.add("flipped");
+
+  }
+
+}
+
+
+/* ---------- QUIZ ---------- */
+
+let answers = [];
+
+function choose(button,value){
+
+  const parent =
+    button.parentElement;
+
+  const buttons =
+    parent.querySelectorAll(".option");
+
+  buttons.forEach(btn=>{
+    btn.classList.remove("selected");
+  });
+
+  button.classList.add("selected");
+
+  const question =
+    button.closest(".question");
+
+  const questions =
+    document.querySelectorAll(".question");
+
+  const index =
+    Array.from(questions).indexOf(question);
+
+  answers[index] = value;
+
+}
+
+
+function showResult(){
+
+  if(answers.length < 3){
+
+    alert("ลองตอบคำถามให้ครบทั้ง 3 ข้อก่อนนะ ✦");
+
+    return;
+
+  }
+
+  const total =
+    answers.reduce((a,b)=>a+b,0);
+
+  let result;
+
+  if(total <= 5){
+
+    result = {
+
+      emoji:"🌙",
+
+      name:"The Dreamer",
+
+      text:"คุณเป็นคนที่มีโลกภายในที่สวยงาม คุณให้ความสำคัญกับความรู้สึกและความหมายของสิ่งต่าง ๆ อย่ากลัวที่จะเดินตามจังหวะของตัวเอง"
+
+    };
+
+  }else if(total <= 8){
+
+    result = {
+
+      emoji:"✨",
+
+      name:"The Stargazer",
+
+      text:"คุณเป็นคนที่มองเห็นความเป็นไปได้ในสิ่งต่าง ๆ คุณมีความหวังและพร้อมออกเดินทางไปหาสิ่งใหม่ ๆ แม้จะยังไม่รู้ว่าปลายทางอยู่ที่ไหน"
+
+    };
+
+  }else{
+
+    result = {
+
+      emoji:"🌌",
+
+      name:"The Cosmic Soul",
+
+      text:"คุณเป็นคนที่มีพลังในการสร้างเส้นทางของตัวเอง คุณรู้ว่าชีวิตไม่จำเป็นต้องเหมือนใคร และพร้อมที่จะค้นหาคำตอบด้วยตัวเอง"
+
+    };
+
+  }
+
+  document.getElementById("resultEmoji").textContent =
+    result.emoji;
+
+  document.getElementById("resultName").textContent =
+    result.name;
+
+  document.getElementById("resultDescription").textContent =
+    result.text;
+
+  document.getElementById("quizResult")
+    .classList.add("show");
+
+  setTimeout(()=>{
+
+    document.getElementById("quizResult")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+
+  },100);
+
+}
+
+</script>
+
+</body>
+          </html>
